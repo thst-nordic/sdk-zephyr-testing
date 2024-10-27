@@ -1,5 +1,6 @@
 name: handle manifest PR
 on:
+  # pull_request:
   pull_request_target:
     types: [opened, synchronize, closed]
     branches:
@@ -12,9 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: handle manifest PR
-        uses: nrfconnect/action-manifest-pr@main
+        uses: thst-nordic/action-manifest-pr@add_release_branches
         with:
           token: ${{ secrets.NCS_GITHUB_TOKEN }}
           manifest-pr-title-details: ${{ github.event.pull_request.title }}
           target-repo: nrfconnect/sdk-nrf-testing
           forked-repo: nordicbuilder/sdk-nrf-testing
+          base-branch: ${{ github.event.pull_request.base.ref == 'v3.7.99-ncs1-branch' && 'v2.8-branch' || 'main' }}
