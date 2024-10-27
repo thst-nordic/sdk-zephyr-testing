@@ -1,5 +1,6 @@
 name: handle manifest PR
 on:
+  # pull_request:
   pull_request_target:
     types: [opened, synchronize, closed]
     branches:
@@ -10,11 +11,26 @@ on:
 jobs:
   call-manifest-pr-action:
     runs-on: ubuntu-latest
+    # env:
+      # TARGET_BASE_BRANCH: ${{ github.event.pull_request.base.ref == 'v3.7.99-ncs1-branch' && 'v2.8-branch' || 'main' }}
+      # myjson: '{"v3.7.99-ncs1-branch" : "v2.8-branch", "v3.7.99-ncs1-branch": "v2.7-branch"}'
     steps:
+      # - name: set TARGET_BASE_BRANCH
+      # # run: echo "github.event.pull_request.base.ref=${{ github.event.pull_request.base.ref }}
+      # run: echo "TARGET_BASE_BRANCH=${{ fromJSON(env.myjson)[env.var_foo] }}" >> $GITHUB_ENV
+      
+      # - name: read TARGET_BASE_BRANCH
+      #   run: echo "TARGET_BASE_BRANCH=$TARGET_BASE_BRANCH"
+      
+      
+      # if: contains(['SNAPSHOT'],env.BUILD_VERSION)
+      # run: echo '{{ github.event.pull_request.base.ref}}'
+      
       - name: handle manifest PR
-        uses: nrfconnect/action-manifest-pr@main
+        uses: thst-nordic/action-manifest-pr@add_release_branches
         with:
           token: ${{ secrets.NCS_GITHUB_TOKEN }}
           manifest-pr-title-details: ${{ github.event.pull_request.title }}
           target-repo: nrfconnect/sdk-nrf-testing
           forked-repo: nordicbuilder/sdk-nrf-testing
+          base-branch: ${{ github.event.pull_request.base.ref == 'v3.7.99-ncs1-branch' && 'v2.8-branch' || 'main' }}
