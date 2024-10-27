@@ -20,6 +20,7 @@
      <img src="https://github.com/zephyrproject-rtos/zephyr/actions/workflows/twister.yaml/badge.svg?event=push">
    </a>
 
+DNM: addint line to test 'manifest-pr.yml workflow'
 
 The Zephyr Project is a scalable real-time operating system (RTOS) supporting
 multiple hardware architectures, optimized for resource constrained devices,
